@@ -13,6 +13,7 @@ interface RpgProgramFinder {
 class SourceProgramFinder : RpgProgramFinder {
     override fun findRpgProgram(nameOrSource: String): RpgProgram? {
         if (nameOrSource.contains("\n") || nameOrSource.contains("\r")) {
+            println("from source")
             return RpgProgram.fromInputStream(ByteArrayInputStream(nameOrSource.toByteArray(Charsets.UTF_8)), nameOrSource)
         }
         return null
@@ -32,6 +33,7 @@ data class DirRpgProgramFinder(val directory: File? = null) : RpgProgramFinder {
     override fun findRpgProgram(nameOrSource: String): RpgProgram? {
         val file = File(prefix() + nameAndSuffix(nameOrSource))
         return if (file.exists()) {
+            println("from dir")
             RpgProgram.fromInputStream(FileInputStream(file), nameOrSource)
         } else {
             println("Not found file ${file.absolutePath}")

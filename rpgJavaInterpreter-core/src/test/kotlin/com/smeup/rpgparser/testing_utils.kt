@@ -240,6 +240,7 @@ fun execute(programName: String, initialValues: Map<String, Value>, si: Collecto
 }
 
 fun rpgProgram(name: String): RpgProgram {
+    println("from rpgProgram")
     return RpgProgram.fromInputStream(Dummy::class.java.getResourceAsStream("/$name.rpgle"), name)
 }
 
