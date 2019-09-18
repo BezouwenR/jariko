@@ -53,7 +53,10 @@ class RunnerTest {
         every { stmtLogger.isInfoEnabled } answers { true }
         every { stmtLogger.info(capture(slot)) } answers { stmtLogs.add(slot.captured) }
 
-        every { LogManager.getLogger(EXPRESSION_LOGGER) } answers { exprLogger }
+        every {
+            println("EXECUTE EXAMPLES - Mocking exprLogger")
+            LogManager.getLogger(EXPRESSION_LOGGER)
+        } answers { exprLogger }
         every { exprLogger.isInfoEnabled } answers { true }
         every { exprLogger.info(capture(slot)) } answers { exprLogs.add(slot.captured) }
 

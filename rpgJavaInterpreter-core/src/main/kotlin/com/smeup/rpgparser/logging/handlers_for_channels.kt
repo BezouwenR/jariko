@@ -7,7 +7,10 @@ import org.apache.logging.log4j.LogManager
 
 class ExpressionLogHandler(level: LogLevel, sep: String) : LogHandler(level, sep), InterpreterLogHandler {
     // The fact the logger is lazy enables us to mock it reliably in some tests
-    val logger by lazy { LogManager.getLogger(EXPRESSION_LOGGER) }
+    val logger by lazy {
+        println("EXECUTE EXAMPLES - Calculating logger in ExpressionLogHandler")
+        LogManager.getLogger(EXPRESSION_LOGGER)
+    }
 
     override fun render(logEntry: LogEntry): String {
         val fileName = extractFilename(logEntry.programName)
