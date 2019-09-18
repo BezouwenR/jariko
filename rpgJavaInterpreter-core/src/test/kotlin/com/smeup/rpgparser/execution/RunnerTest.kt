@@ -59,6 +59,12 @@ class RunnerTest {
 
         runnerMain(arrayOf("--log-configuration", "../logging.config", "TEST_06.rpgle", "AA", "'ABCD'", "1**"))
 
+        println("EXECUTE EXAMPLES - expr logs - start")
+        exprLogs.forEach {
+            println(it)
+        }
+        println("EXECUTE EXAMPLES - expr logs - end")
+
         assertNotNull(exprLogs.find { it.endsWith("TEST_06.rpgle\t73\tEXPR\t%ELEM(WORDS)\t128") })
 
         assertNotNull(perfLogs.find { it.contains("TEST_06.rpgle\t44\tPERF\tENDFOR J") })
