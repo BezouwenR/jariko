@@ -101,6 +101,10 @@ object RunnerCLI : CliktCommand() {
 
     override fun run() {
         val allProgramFinders = defaultProgramFinders() + (programsSearchDirs?.map { DirRpgProgramFinder(File(it)) } ?: emptyList())
+        println("EXECUTE EXAMPLES programName $programName")
+        println("EXECUTE EXAMPLES programArgs $programArgs")
+        println("EXECUTE EXAMPLES logConfigurationFile $logConfigurationFile")
+        println("EXECUTE EXAMPLES programFinders $allProgramFinders")
         executePgmWithStringArgs(programName, programArgs, logConfigurationFile, programFinders = allProgramFinders)
     }
 }
