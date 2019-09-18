@@ -86,7 +86,13 @@ class RunnerTest {
 
         //mockkStatic(System::class)
 
-        runnerMain(arrayOf(/*"--log-configuration", loggingFilePath, */"TEST_06.rpgle", "AA", "'ABCD'", "1**"))
+        val runnerCli = spyk(RunnerCLI, recordPrivateCalls = true)
+
+        runnerCli.main(arrayOf("--log-configuration", loggingFilePath, "TEST_06.rpgle", "AA", "'ABCD'", "1**"))
+
+        verify {
+            runnerCli.run()
+        }
 
         //unmockkStatic(System::class)
 
