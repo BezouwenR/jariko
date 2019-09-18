@@ -3,14 +3,12 @@ package com.smeup.rpgparser.execution
 import com.smeup.rpgparser.logging.*
 import com.smeup.rpgparser.rgpinterop.DirRpgProgramFinder
 import com.smeup.rpgparser.rgpinterop.RpgSystem
-import io.mockk.every
-import io.mockk.mockk
-import io.mockk.mockkStatic
-import io.mockk.slot
+import io.mockk.*
 import org.apache.logging.log4j.LogManager
 import org.junit.Test
 import java.io.File
 import kotlin.test.Ignore
+import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import com.smeup.rpgparser.execution.main as runnerMain
 import org.apache.logging.log4j.Logger as L4JLogger
@@ -19,7 +17,19 @@ class RunnerTest {
 
     @Test
     fun executeExample() {
+        // we cannot mock exitProcess, as it is inlined
+        // so we mock System.exit, but by doing so we prevent the JVM from terminating,
+        // which cause an exception in exitProcess
+
+        mockkStatic(System::class)
+
         mockkStatic(LogManager::class)
+
+        var failureExit = 0
+        var successExit = 0
+
+        every { System.exit(1) } answers { failureExit++ }
+        every { System.exit(0) } answers { successExit++ }
 
         RpgSystem.addProgramFinder(DirRpgProgramFinder(File("src/test/resources/logging")))
 
@@ -69,6 +79,8 @@ class RunnerTest {
         println("EXECUTE EXAMPLES - FILE ${File(loggingFilePath)}")
         require(File(loggingFilePath).exists())
         runnerMain(arrayOf("--log-configuration", loggingFilePath, "TEST_06.rpgle", "AA", "'ABCD'", "1**"))
+        assertEquals(0, failureExit)
+        assertEquals(0, successExit)
 
         println("EXECUTE EXAMPLES - expr logs - start")
         exprLogs.forEach {
