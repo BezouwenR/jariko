@@ -23,8 +23,6 @@ class RunnerTest {
 
         RpgSystem.addProgramFinder(DirRpgProgramFinder(File("src/test/resources/logging")))
 
-        val slot = slot<String>()
-
         val dataLogger = mockk<L4JLogger>()
         val perfLogger = mockk<L4JLogger>()
         val loopLogger = mockk<L4JLogger>()
@@ -39,26 +37,32 @@ class RunnerTest {
 
         every { LogManager.getLogger(DATA_LOGGER) } answers { dataLogger }
         every { dataLogger.isInfoEnabled } answers { true }
-        every { dataLogger.info(capture(slot)) } answers { dataLogs.add(slot.captured) }
+        every { dataLogger.info(capture(dataLogs)) } answers { nothing }
 
         every { LogManager.getLogger(PERFOMANCE_LOGGER) } answers { perfLogger }
         every { perfLogger.isInfoEnabled } answers { true }
-        every { perfLogger.info(capture(slot)) } answers { perfLogs.add(slot.captured) }
+        every { perfLogger.info(capture(perfLogs)) } answers { nothing }
 
         every { LogManager.getLogger(LOOP_LOGGER) } answers { loopLogger }
         every { loopLogger.isInfoEnabled } answers { true }
-        every { loopLogger.info(capture(slot)) } answers { loopLogs.add(slot.captured) }
+        every { loopLogger.info(capture(loopLogs)) } answers { nothing }
 
         every { LogManager.getLogger(STATEMENT_LOGGER) } answers { stmtLogger }
         every { stmtLogger.isInfoEnabled } answers { true }
-        every { stmtLogger.info(capture(slot)) } answers { stmtLogs.add(slot.captured) }
+        every { stmtLogger.info(capture(stmtLogs)) } answers { nothing }
 
         every {
             println("EXECUTE EXAMPLES - Mocking exprLogger")
             LogManager.getLogger(EXPRESSION_LOGGER)
         } answers { exprLogger }
-        every { exprLogger.isInfoEnabled } answers { true }
-        every { exprLogger.info(capture(slot)) } answers { exprLogs.add(slot.captured) }
+        every { exprLogger.isInfoEnabled } answers {
+            println("EXECUTE EXAMPLES - exprLogger.isInfoEnabled called")
+            true
+        }
+        every { exprLogger.info(capture(exprLogs)) } answers {
+            println("EXECUTE EXAMPLES - exprLogger.info called")
+            nothing
+        }
 
         runnerMain(arrayOf("--log-configuration", "../logging.config", "TEST_06.rpgle", "AA", "'ABCD'", "1**"))
 
