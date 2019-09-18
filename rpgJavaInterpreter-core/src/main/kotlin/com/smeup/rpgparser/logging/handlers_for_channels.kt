@@ -6,7 +6,8 @@ import com.smeup.rpgparser.parsing.ast.LogicalOrExpr
 import org.apache.logging.log4j.LogManager
 
 class ExpressionLogHandler(level: LogLevel, sep: String) : LogHandler(level, sep), InterpreterLogHandler {
-    val logger = LogManager.getLogger(EXPRESSION_LOGGER)
+    // The fact the logger is lazy enables us to mock it reliably in some tests
+    val logger by lazy { LogManager.getLogger(EXPRESSION_LOGGER) }
 
     override fun render(logEntry: LogEntry): String {
         val fileName = extractFilename(logEntry.programName)
@@ -27,7 +28,7 @@ class ExpressionLogHandler(level: LogLevel, sep: String) : LogHandler(level, sep
 }
 
 class PerformanceLogHandler(level: LogLevel, sep: String) : LogHandler(level, sep), InterpreterLogHandler {
-    private val logger = LogManager.getLogger(PERFOMANCE_LOGGER)
+    private val logger by lazy { LogManager.getLogger(PERFOMANCE_LOGGER) }
 
     override fun render(logEntry: LogEntry): String {
         val fileName = extractFilename(logEntry.programName)
@@ -50,7 +51,7 @@ class PerformanceLogHandler(level: LogLevel, sep: String) : LogHandler(level, se
 }
 
 class StatementLogHandler(level: LogLevel, sep: String) : LogHandler(level, sep), InterpreterLogHandler {
-    val logger = LogManager.getLogger(STATEMENT_LOGGER)
+    val logger by lazy { LogManager.getLogger(STATEMENT_LOGGER) }
     var inLoop: Int = 0
 
     override fun render(logEntry: LogEntry): String {
@@ -128,7 +129,7 @@ class DataLogHandler(level: LogLevel, sep: String) : LogHandler(level, sep), Int
 }
 
 class LoopLogHandler(level: LogLevel, sep: String) : LogHandler(level, sep), InterpreterLogHandler {
-    val logger = LogManager.getLogger(LOOP_LOGGER)
+    val logger by lazy { LogManager.getLogger(LOOP_LOGGER) }
 
     override fun render(logEntry: LogEntry): String {
         val fileName = extractFilename(logEntry.programName)
@@ -150,7 +151,7 @@ class LoopLogHandler(level: LogLevel, sep: String) : LogHandler(level, sep), Int
 }
 
 class ResolutionLogHandler(level: LogLevel, sep: String) : LogHandler(level, sep), InterpreterLogHandler {
-    val logger = LogManager.getLogger(RESOLUTUION_LOGGER)
+    val logger by lazy { LogManager.getLogger(RESOLUTUION_LOGGER) }
 
     override fun render(logEntry: LogEntry): String {
         val fileName = extractFilename(logEntry.programName)
