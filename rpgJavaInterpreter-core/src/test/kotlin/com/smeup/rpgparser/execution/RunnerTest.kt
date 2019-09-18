@@ -65,8 +65,8 @@ class RunnerTest {
         }
 
         println("EXECUTE EXAMPLES - about to call runnerMain")
-        println("EXECUTE EXAMPLES - FILE ${File("..")}")
         val loggingFilePath = "../logging.config"
+        println("EXECUTE EXAMPLES - FILE ${File(loggingFilePath)}")
         require(File(loggingFilePath).exists())
         runnerMain(arrayOf("--log-configuration", loggingFilePath, "TEST_06.rpgle", "AA", "'ABCD'", "1**"))
 
