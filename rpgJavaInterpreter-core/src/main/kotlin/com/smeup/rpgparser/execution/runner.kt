@@ -124,6 +124,7 @@ fun main(args: Array<String>) {
     if (args.isEmpty()) {
         startShell()
     } else {
+        println("EXECUTE EXAMPLES runner main")
         RunnerCLI.main(args)
     }
 }

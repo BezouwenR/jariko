@@ -64,6 +64,7 @@ class RunnerTest {
             nothing
         }
 
+        println("EXECUTE EXAMPLES - about to call runnerMain")
         runnerMain(arrayOf("--log-configuration", "../logging.config", "TEST_06.rpgle", "AA", "'ABCD'", "1**"))
 
         println("EXECUTE EXAMPLES - expr logs - start")
