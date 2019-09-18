@@ -17,7 +17,7 @@ import org.apache.logging.log4j.Logger as L4JLogger
 
 class RunnerTest {
 
-    @Test @Ignore
+    @Test
     fun executeExample() {
         mockkStatic(LogManager::class)
 
