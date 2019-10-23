@@ -27,7 +27,7 @@ interface InterpretationContext {
 /**
  * Expose interpreter core method could be useful in statements logic implementation
  **/
-interface InterpreterCoreHelper{
+interface InterpreterCoreHelper {
 
     fun log(logEntry: LogEntry)
     fun assign(target: AssignableExpression, value: Value): Value
@@ -65,7 +65,7 @@ class DBFileMap(private val dbInterface: DBInterface) {
     operator fun get(nameOrFormat: String): DBFile? = byFileName[nameOrFormat] ?: byFormatName[nameOrFormat]
 }
 
-class InternalInterpreter(val systemInterface: SystemInterface) : InterpreterCoreHelper{
+class InternalInterpreter(val systemInterface: SystemInterface) : InterpreterCoreHelper {
     private val globalSymbolTable = SymbolTable()
     private val predefinedIndicators = HashMap<Int, Value>()
     // TODO default value DECEDIT can be changed
@@ -288,7 +288,6 @@ class InternalInterpreter(val systemInterface: SystemInterface) : InterpreterCor
                 is MoveLStmt -> {
                     val value = movel(statement.operationExtender, statement.target, statement.expression, this)
                     log(MoveLStatemenExecutionLog(this.interpretationContext.currentProgramName, statement, value))
-
                 }
                 is SelectStmt -> {
                     for (case in statement.cases) {
